@@ -1,7 +1,23 @@
 h1= title
-p Welcome to #{title}
+p 96 Alexander yo!
 
-form(action='/addUser', method='post')
-  label First Name: 
-  input(type='text',name='userName')
-  input(type='submit', value='Add user')
+p Users
+  ul
+    each user in db['users']
+      li= user['name']
+
+hr
+
+form(action='addWeight', method='post')
+  label User:
+  select(name='user')
+     each user in db['users']
+       option= user['name']
+
+  label Date:
+  input(type='calendar', name='date')
+
+  label Weight:
+  input(type='select', name='user')
+
+  input(type='submit', value='Add weight')

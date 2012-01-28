@@ -5,17 +5,32 @@ var util = require('util');
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' })
+  res.render('index', { title: 'Home' })
+};
+
+exports.newuser = function(req, res){
+  res.render('index', { title: 'Home' })
 };
 
 /*
  * POST user
  */
 
-exports.addUser = function(req, res, db){
+exports.addUser = function(req, res){
   // Print up the request
-  console.log("Request here: " + req);
-  console.log(util.inspect(req));
+  var config = req.body;
+  var userName = req.body['userName'];
 
-  res.render('index', { title: 'Added User!' });
+  // Add the user into the database if they arent already in there
+  if( !(userName in db['users']) ) {
+    db['users'] = { "name": userName, "data":{} };
+
+    // Save any database changes
+    db.save();
+  }
+  else {
+    console.log("We've already got one (" + userName + ") !");
+  }
+
+  res.render('index', { title: 'Home' });
 };

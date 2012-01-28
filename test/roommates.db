@@ -1,0 +1,19 @@
+{ "path":"./test/test.db",
+  "ids":0,
+  "users": [
+             {"name": "james", 
+              "data":[
+                      {"date":"1/11/12","weight":170}
+                     ]
+             },
+             {"name":"Tyler",
+              "data":{}
+             },
+             {"name":"Jayce",
+              "data":{}},
+             {"name":"David",
+              "data":{}},
+             {"name":"Danny",
+              "data":{}}
+            ]
+}

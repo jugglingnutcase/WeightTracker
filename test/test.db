@@ -1,1 +1,1 @@
-{"path":"./test/test.db","ids":0,"users":{"james":[{"data":"1/11/12","weight":170}]}}
+{"path":"./test/test.db","ids":0,"users":{{"name": "james", "data":[{"date":"1/11/12","weight":170}]},{"name":"hello", "data":{}},{"name":"Tyler","data":{}},{"name":"Jayce","data":{}},{"name":"David","data":{}},{"name":"Danny",data:{}}}}

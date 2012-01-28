@@ -5,7 +5,9 @@
 
 var express = require('express')
   , routes = require('./routes')
-	, Database = require('./lib/db');
+	, Database = require('./lib/db')
+  , less = require('less')
+  , util = require('util');
 
 var app = module.exports = express.createServer();
 
@@ -21,8 +23,11 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
-	//Setup us the database
-  db = new Database('./test/finance.db');
+  //Setup us the database
+  db = new Database('./test/roommates.db');
+  db.load(function() {
+    console.log(' database internal: %s', util.inspect(db));
+  });
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
