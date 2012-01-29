@@ -1,6 +1,9 @@
+div.navbar.navbar-fixed-top
+  div.navbar-inner
+    div.container
+      a.brand(href='#') 96 Alexander's weight tracking!
+
 div.container
-  h1= title
-  p 96 Alexander yo!
 
   form.form-horizontal(action='addWeight', method='post')
     fieldset
@@ -8,19 +11,19 @@ div.container
       div.control-group
         label.control-label User:
         div.controls
-          select.span2(name='user')
+          select(name='user')
              each user in db['users']
                option= user['name']
 
       div.control-group
         label.control-label Date:
         div.controls
-          input.span2(type='calendar', name='date')
+          input(type='calendar', name='date')
 
       div.control-group
         label.control-label Weight:
         div.controls
-          input.span2(type='select', name='user')
+          input(type='select', name='user')
 
       div.form-actions.well
         button.btn.primary(type='submit')
