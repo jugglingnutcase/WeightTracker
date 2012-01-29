@@ -5,26 +5,33 @@ div.navbar.navbar-fixed-top
 
 div.container
 
-  form.form-horizontal(action='addWeight', method='post')
-    fieldset
-      legend Add your weight to the data
-      div.control-group
-        label.control-label User:
-        div.controls
-          select(name='user')
-             each user in db['users']
-               option= user['name']
+  div.row
+    div.span12#chart
 
-      div.control-group
-        label.control-label Date:
-        div.controls
-          input(type='calendar', name='date')
+  script 
+    - var data = 
 
-      div.control-group
-        label.control-label Weight:
-        div.controls
-          input(type='select', name='user')
+  div.row
+    form.form-horizontal(action='addWeight', method='post')
+      fieldset
+        legend Add your weight to the data
+        div.control-group
+          label.control-label User:
+          div.controls
+            select(name='user')
+               each user in db['users']
+                 option= user['name']
 
-      div.form-actions.well
-        button.btn.primary(type='submit')
-          | Add weight
+        div.control-group
+          label.control-label Date:
+          div.controls
+            input(type='calendar', name='date')
+
+        div.control-group
+          label.control-label Weight:
+          div.controls
+            input(type='select', name='user')
+
+        div.form-actions.well
+          button.btn.primary(type='submit')
+            | Add weight
