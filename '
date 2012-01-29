@@ -1,0 +1,17 @@
+div.container
+  h1= title
+  p 96 Alexander yo!
+
+  form.form-inline.well(action='addWeight', method='post')
+    label User:
+    select.span2(name='user')
+       each user in db['users']
+         option= user['name']
+
+    label Date:
+    input.span2(type='calendar', name='date')
+
+    label Weight:
+    input.span2(type='select', name='user')
+
+    button.btn(type='submit', value='Add weight')

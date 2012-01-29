@@ -1,16 +1,27 @@
-h1= title
-p 96 Alexander yo!
+div.container
+  h1= title
+  p 96 Alexander yo!
 
-form(action='addWeight', method='post')
-  label User:
-  select(name='user')
-     each user in db['users']
-       option= user['name']
+  form.form-horizontal(action='addWeight', method='post')
+    fieldset
+      legend Add your weight to the data
+      div.control-group
+        label.control-label User:
+        div.controls
+          select.span2(name='user')
+             each user in db['users']
+               option= user['name']
 
-  label Date:
-  input(type='calendar', name='date')
+      div.control-group
+        label.control-label Date:
+        div.controls
+          input.span2(type='calendar', name='date')
 
-  label Weight:
-  input(type='select', name='user')
+      div.control-group
+        label.control-label Weight:
+        div.controls
+          input.span2(type='select', name='user')
 
-  input(type='submit', value='Add weight')
+      div.form-actions.well
+        button.btn.primary(type='submit')
+          | Add weight
