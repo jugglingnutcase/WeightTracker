@@ -1,13 +1,6 @@
 h1= title
 p 96 Alexander yo!
 
-p Users
-  ul
-    each user in db['users']
-      li= user['name']
-
-hr
-
 form(action='addWeight', method='post')
   label User:
   select(name='user')

@@ -5,7 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
-	, Database = require('./lib/db')
+  , Database = require('./lib/db')
   , less = require('less')
   , util = require('util');
 
