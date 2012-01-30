@@ -28,6 +28,7 @@ app.configure('development', function(){
   db.load(function() {
     console.log(' database internal: %s', util.inspect(db));
   });
+  
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 

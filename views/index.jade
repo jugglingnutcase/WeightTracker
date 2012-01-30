@@ -4,12 +4,24 @@ div.navbar.navbar-fixed-top
       a.brand(href='#') 96 Alexander's weight tracking!
 
 div.container
-
   div.row
     div.span12#chart
 
-  script 
-    - var data = 
+  - var weightUsers = db.users
+  - var james = db.users[0].data
+
+  script
+    var graph = new Rickshaw.Graph( {
+        element: document.querySelector("#chart")
+      , width: 940
+      , height: 400
+      , renderer: 'line'
+      , series: [
+          { color: 'steelblue', data: !{JSON.stringify(james)} }
+        ]
+    });
+    var axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+    graph.render();
 
   div.row
     form.form-horizontal(action='addWeight', method='post')
@@ -19,8 +31,8 @@ div.container
           label.control-label User:
           div.controls
             select(name='user')
-               each user in db['users']
-                 option= user['name']
+              each user in db.users
+                option= user.name
 
         div.control-group
           label.control-label Date:
