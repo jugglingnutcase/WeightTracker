@@ -11,6 +11,11 @@ div.container
   - var james = db.users[0].data
 
   script
+    // Bring up the datepicker in my form
+    $(function() {
+      $("#datepicker").datepicker();
+    });
+
     var graph = new Rickshaw.Graph( {
         element: document.querySelector("#chart")
       , width: 940
@@ -28,7 +33,7 @@ div.container
       fieldset
         legend Add your weight to the data
         div.control-group
-          label.control-label User:
+          label.control-label Name:
           div.controls
             select(name='user')
               each user in db.users
@@ -37,7 +42,7 @@ div.container
         div.control-group
           label.control-label Date:
           div.controls
-            input(type='calendar', name='date')
+            input#datepicker(type='text', name='date')
 
         div.control-group
           label.control-label Weight:
