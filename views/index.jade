@@ -5,28 +5,39 @@ div.navbar.navbar-fixed-top
 
 div.container
   div.row
-    div.span12#chart
+    h1 96 Alexander's weight tracker
 
-  - var weightUsers = db.users
-  - var james = db.users[0].data
+  div.row
+    div.span12#chart
+    
+  - var series = []
+  - db.users.forEach( function(user) {
+  -   userSeries = {}
+  -   userSeries.name = user.name
+  -   userSeries.color = 'palette.color()'
+  -   userSeries.data = user.data
+  -   series.push(userSeries)
+  - });
 
   script
     // Bring up the datepicker in my form
     $(function() {
       $("#datepicker").datepicker();
-    });
 
-    var graph = new Rickshaw.Graph( {
-        element: document.querySelector("#chart")
-      , width: 940
-      , height: 400
-      , renderer: 'line'
-      , series: [
-          { color: 'steelblue', data: !{JSON.stringify(james)} }
-        ]
+      var palette = new Rickshaw.Color.Palette();
+      
+      var graph = new Rickshaw.Graph( {
+          element: document.querySelector("#chart")
+        , width: 940
+        , height: 400
+        , renderer: 'line'
+        , onData: function(d) { Rickshaw.Series.zeroFill(d); return d }
+        , series: !{JSON.stringify(series)}
+      });
+
+      var axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+      graph.render();
     });
-    var axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-    graph.render();
 
   div.row
     form.form-horizontal(action='addWeight', method='post')
