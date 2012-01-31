@@ -22,12 +22,12 @@ exports.addWeight = function(req, res){
       var dataPoint = {};
 
       dataPoint.x = Date.parse(req.body.date) / 1000;
-      dataPoint.y = req.body.weight;
+      dataPoint.y = parseFloat( req.body.weight );
 
       user.data.push(dataPoint);
       db.save();
 
-      console.log("Data point added: %s", util.inspect(dataPoint));
+      console.log("Data point %s added to %s", util.inspect(dataPoint), user.name);
       // Render the normal page for now
       res.render('index', { title: 'Home' });
     }
