@@ -1,67 +1,95 @@
-div.navbar.navbar-fixed-top
-  div.navbar-inner
-    div.container
+- var series = []
+- db.users.forEach( function(user) {
+-   userSeries = {}
+-   userSeries.name = user.name
+-   userSeries.data = user.data
+-   series.push(userSeries)
+- })
+
+.navbar.navbar-fixed-top
+  .navbar-inner
+    .container
       a.brand(href='#') 96 Alexander's weight tracking!
 
-div.container
-  div.row
+.container
+  .row
     h1 96 Alexander's weight tracker
 
-  div.row
-    div.span12#chart
-    
-  - var series = []
-  - db.users.forEach( function(user) {
-  -   userSeries = {}
-  -   userSeries.name = user.name
-  -   userSeries.color = 'steelblue'
-  -   userSeries.data = user.data
-  -   series.push(userSeries)
-  - })
+  style
+    #chart_container {
+            position: relative;
+    }
+    #chart {
+            position: relative;
+            left: 40px;
+    }
+    #y_axis {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+    }
+
+  .row
+    #chart_container
+      #y_axis
+      #chart
   
   script
     // Bring up the datepicker in my form
     $(function() {
       $("#datepicker").datepicker();
 
-      var palette = new Rickshaw.Color.Palette();
-      
+      // Set up the series data
       var houseSeries = !{JSON.stringify(series)}
       Rickshaw.Series.zeroFill(houseSeries)
 
+      // Add a color for each participant
+      var palette = new Rickshaw.Color.Palette();
+      houseSeries.forEach(function( dataSeries ) {
+        dataSeries.color = palette.color()
+      });
+
       var graph = new Rickshaw.Graph( {
           element: document.querySelector("#chart")
-        , width: 940
-        , height: 400
+        , width: 900
+        , height: 500
         , renderer: 'line'
         , series: houseSeries
       });
 
-      var axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+      var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+      var y_axis = new Rickshaw.Graph.Axis.Y( {
+        graph: graph,
+        orientation: 'left',
+        tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+        element: document.getElementById('y_axis')
+      });
+
       graph.render();
     });
 
-  div.row
+  .row
     form.form-horizontal(action='addWeight', method='post')
       fieldset
         legend Add your weight to the data
-        div.control-group
+        .control-group
           label.control-label Name:
-          div.controls
+          .controls
             select(name='user')
               each user in db.users
                 option= user.name
 
-        div.control-group
+        .control-group
           label.control-label Date:
-          div.controls
+          .controls
             input#datepicker(type='text', name='date')
 
-        div.control-group
+        .control-group
           label.control-label Weight:
-          div.controls
+          .controls
             input(type='text', name='weight')
 
-        div.form-actions.well
+        .form-actions.well
           button.btn.primary(type='submit')
             | Add weight
