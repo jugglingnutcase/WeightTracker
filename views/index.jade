@@ -14,11 +14,11 @@ div.container
   - db.users.forEach( function(user) {
   -   userSeries = {}
   -   userSeries.name = user.name
-  -   userSeries.color = 'palette.color()'
+  -   userSeries.color = 'steelblue'
   -   userSeries.data = user.data
   -   series.push(userSeries)
-  - });
-
+  - })
+  
   script
     // Bring up the datepicker in my form
     $(function() {
@@ -26,13 +26,15 @@ div.container
 
       var palette = new Rickshaw.Color.Palette();
       
+      var houseSeries = !{JSON.stringify(series)}
+      Rickshaw.Series.zeroFill(houseSeries)
+
       var graph = new Rickshaw.Graph( {
           element: document.querySelector("#chart")
         , width: 940
         , height: 400
         , renderer: 'line'
-        , onData: function(d) { Rickshaw.Series.zeroFill(d); return d }
-        , series: !{JSON.stringify(series)}
+        , series: houseSeries
       });
 
       var axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
