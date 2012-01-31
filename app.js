@@ -40,6 +40,7 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 app.post('/addUser', routes.addUser);
+app.post('/addWeight', routes.addWeight);
 
 // listening
 app.listen(3000);
