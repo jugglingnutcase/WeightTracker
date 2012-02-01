@@ -9,7 +9,7 @@
 .navbar.navbar-fixed-top
   .navbar-inner
     .container
-      a.brand(href='#') 96 Alexander's weight tracking!
+      a.brand(href='/') 96 Alexander's weight tracking!
 
 .container
   .row
@@ -55,15 +55,23 @@
         , width: 900
         , height: 500
         , renderer: 'line'
+        /*,interpolation: 'step-after'*/
         , series: houseSeries
       });
 
+      var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+        graph: graph
+      });
+
+      // Tighten the interpolation
+      //this.graph.interpolation.tension(0.2);
+
       var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph } );
       var y_axis = new Rickshaw.Graph.Axis.Y( {
-        graph: graph,
-        orientation: 'left',
-        tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-        element: document.getElementById('y_axis')
+          graph: graph
+        , orientation: 'left'
+        , tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+        , element: document.getElementById('y_axis')
       });
 
       graph.render();
