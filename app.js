@@ -39,6 +39,7 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
+app.get('/newUser', routes.newUser);
 app.post('/addUser', routes.addUser);
 app.post('/addWeight', routes.addWeight);
 

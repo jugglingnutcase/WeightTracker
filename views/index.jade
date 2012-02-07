@@ -1,15 +1,17 @@
 - var series = []
-- db.users.forEach( function(user) {
--   userSeries = {}
--   userSeries.name = user.name
--   userSeries.data = user.data
--   series.push(userSeries)
-- })
+- if (db.users) {
+-   db.users.forEach( function(user) {
+-     userSeries = {}
+-     userSeries.name = user.name
+-     userSeries.data = user.data
+-     series.push(userSeries)
+-   })
+- }
 
 .navbar.navbar-fixed-top
   .navbar-inner
     .container
-      a.brand(href='/') 96 Alexander's weight tracking!
+      a.brand(href='/') Home
 
 .container
   .row
@@ -99,5 +101,6 @@
             input(type='text', name='weight')
 
         .form-actions.well
-          button.btn.primary(type='submit')
-            | Add weight
+          button.btn.primary(type='submit') Add weight
+          &nbsp;
+          a(href='/newUser') Not in the system?

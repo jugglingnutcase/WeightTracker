@@ -35,6 +35,14 @@ exports.addWeight = function(req, res){
 };
 
 /*
+ * GET add user
+ */
+
+exports.newUser = function(req, res){
+  res.render('newuser', { title: 'Welcome!' });
+};
+
+/*
  * POST user
  */
 
@@ -45,7 +53,7 @@ exports.addUser = function(req, res){
 
   // Add the user into the database if they arent already in there
   if( !(userName in db.users) ) {
-    db.users = { "name": userName, "data":{} };
+    db.users.push( { "name": userName, "data":[] } );
 
     // Save any database changes
     db.save();
