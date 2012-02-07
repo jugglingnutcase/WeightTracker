@@ -24,7 +24,7 @@ app.configure(function(){
 
 app.configure('development', function(){
   //Setup us the database
-  db = new Database('./test/roommates.db');
+  db = new Database('./roommates.db');
   db.load(function() {
     console.log(' database internal: %s', util.inspect(db));
   });
