@@ -1,9 +1,10 @@
-h1 = title
-p Add yourself to the fun!
+.row
+  .span12
+    h1= title 
 
-form(action='/addUser', method='post')
-  label First Name: 
-
-  input(type='text',name='userName')
-  input(type='submit', value='Add user')
+.row
+  .span12
+    form.well.form-inline(action='addUser', method='post')
+      input(type='text',name='userName', placeholder='Name')
+      button.btn(type='submit') Add me!
 

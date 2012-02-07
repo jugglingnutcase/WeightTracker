@@ -39,7 +39,7 @@ exports.addWeight = function(req, res){
  */
 
 exports.newUser = function(req, res){
-  res.render('newuser', { title: 'Welcome!' });
+  res.render('newuser', { title: 'Add yourself to the fun!' });
 };
 
 /*
