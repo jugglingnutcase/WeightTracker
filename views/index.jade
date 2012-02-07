@@ -8,99 +8,93 @@
 -   })
 - }
 
-.navbar.navbar-fixed-top
-  .navbar-inner
-    .container
-      a.brand(href='/') Home
+.row
+  h1 96 Alexander's weight tracker
 
-.container
-  .row
-    h1 96 Alexander's weight tracker
+style
+  #chart_container {
+          position: relative;
+  }
+  #chart {
+          position: relative;
+          left: 40px;
+  }
+  #y_axis {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 40px;
+  }
 
-  style
-    #chart_container {
-            position: relative;
-    }
-    #chart {
-            position: relative;
-            left: 40px;
-    }
-    #y_axis {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 40px;
-    }
+.row
+  #chart_container
+    #y_axis
+    #chart
 
-  .row
-    #chart_container
-      #y_axis
-      #chart
-  
-  script
-    // Bring up the datepicker in my form
-    $(function() {
-      $("#datepicker").datepicker();
+script
+  // Bring up the datepicker in my form
+  $(function() {
+    $("#datepicker").datepicker();
 
-      // Set up the series data
-      var houseSeries = !{JSON.stringify(series)}
-      Rickshaw.Series.zeroFill(houseSeries)
+    // Set up the series data
+    var houseSeries = !{JSON.stringify(series)}
+    Rickshaw.Series.zeroFill(houseSeries)
 
-      // Add a color for each participant
-      var palette = new Rickshaw.Color.Palette();
-      houseSeries.forEach(function( dataSeries ) {
-        dataSeries.color = palette.color()
-      });
-
-      var graph = new Rickshaw.Graph( {
-          element: document.querySelector("#chart")
-        , width: 900
-        , height: 500
-        , renderer: 'line'
-        /*,interpolation: 'step-after'*/
-        , series: houseSeries
-      });
-
-      var hoverDetail = new Rickshaw.Graph.HoverDetail( {
-        graph: graph
-      });
-
-      // Tighten the interpolation
-      //this.graph.interpolation.tension(0.2);
-
-      var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-      var y_axis = new Rickshaw.Graph.Axis.Y( {
-          graph: graph
-        , orientation: 'left'
-        , tickFormat: Rickshaw.Fixtures.Number.formatKMBT
-        , element: document.getElementById('y_axis')
-      });
-
-      graph.render();
+    // Add a color for each participant
+    var palette = new Rickshaw.Color.Palette();
+    houseSeries.forEach(function( dataSeries ) {
+      dataSeries.color = palette.color()
     });
 
-  .row
-    form.form-horizontal(action='addWeight', method='post')
-      fieldset
-        legend Add your weight to the data
-        .control-group
-          label.control-label Name:
-          .controls
-            select(name='user')
-              each user in db.users
-                option= user.name
+    var graph = new Rickshaw.Graph( {
+        element: document.querySelector("#chart")
+      , width: 900
+      , height: 500
+      , renderer: 'line'
+      /*,interpolation: 'step-after'*/
+      , series: houseSeries
+    });
 
-        .control-group
-          label.control-label Date:
-          .controls
-            input#datepicker(type='text', name='date')
+    var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+      graph: graph
+    });
 
-        .control-group
-          label.control-label Weight:
-          .controls
-            input(type='text', name='weight')
+    // Tighten the interpolation
+    //this.graph.interpolation.tension(0.2);
 
-        .form-actions.well
-          button.btn.primary(type='submit') Add weight
-          &nbsp;
-          a(href='/newUser') Not in the system?
+    var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+    var y_axis = new Rickshaw.Graph.Axis.Y( {
+        graph: graph
+      , orientation: 'left'
+      , tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+      , element: document.getElementById('y_axis')
+    });
+
+    graph.render();
+  });
+
+.row
+  form.form-horizontal(action='addWeight', method='post')
+    fieldset
+      legend Add your weight to the data
+      .control-group
+        label.control-label Name:
+        .controls
+          select(name='user')
+            each user in db.users
+              option= user.name
+
+      .control-group
+        label.control-label Date:
+        .controls
+          input#datepicker(type='text', name='date')
+
+      .control-group
+        label.control-label Weight:
+        .controls
+          input(type='text', name='weight')
+
+      .form-actions.well
+        button.btn.primary(type='submit') Add weight
+        &nbsp;
+        a(href='/newUser') Not in the system?
