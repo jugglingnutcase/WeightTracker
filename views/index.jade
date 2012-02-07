@@ -1,9 +1,27 @@
 - var series = []
+- var users = []
 - if (db.users) {
--   db.users.forEach( function(user) {
+-   users = db.users.sort( function compare(a, b) {
+-     if (a.name < b.name) {
+-       return -1;
+-     }
+-     if (a.name > b.name) {
+-       return 1;
+-     }
+-     return 0;
+-   });
+-   users.forEach( function(user) {
 -     userSeries = {}
 -     userSeries.name = user.name
--     userSeries.data = user.data
+-     userSeries.data = user.data.sort( function compare(a, b) {
+-       if (a.x < b.x) {
+-         return -1;
+-       }
+-       if (a.x > b.x) {
+-         return 1;
+-       }
+-       return 0;
+-     });
 -     series.push(userSeries)
 -   })
 - }
@@ -81,7 +99,7 @@ script
         label.control-label Name:
         .controls
           select(name='user')
-            each user in db.users
+            each user in users
               option= user.name
 
       .control-group
