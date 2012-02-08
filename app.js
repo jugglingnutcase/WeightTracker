@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , Database = require('./lib/db')
   , less = require('less')
-  , util = require('util');
+  , util = require('util')
+  , fs = require('fs');
 
 var app = module.exports = express.createServer();
 
@@ -30,6 +31,13 @@ app.configure('development', function(){
   });
   
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+
+  // db backup every hour i'm hoping
+  setInterval( function () {
+    var fileLocation = "./backups/weights-" + new Date().toString() + ".db.backup"
+    console.log("Backing up to: %s", fileLocation);
+    db.backup(fileLocation);
+  }, 60 * 1000);
 });
 
 app.configure('production', function(){
@@ -38,6 +46,12 @@ app.configure('production', function(){
   db.load();
 
   app.use(express.errorHandler()); 
+
+  // db backup every hour i'm hoping
+  setInterval( function () {
+    var fileLocation = "./backups/weights-" + new Date().toString() + ".db.backup"
+    db.backup(fileLocation);
+  }, 60 * 60 * 1000);
 });
 
 // Routes
@@ -51,3 +65,4 @@ var port = process.env.PORT || 3000;
 app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 console.log(' database: %s', db.path);
+
