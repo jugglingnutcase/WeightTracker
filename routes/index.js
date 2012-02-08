@@ -27,7 +27,7 @@ exports.addWeight = function(req, res){
       user.data.push(dataPoint);
       db.save();
 
-      console.log("Data point %s added to %s", util.inspect(dataPoint), user.name);
+      console.log("User: %s added weight %s at %s", user.name, req.body.weight, req.body.date);
       // Render the normal page for now
       res.render('index', { title: 'Home' });
     }
