@@ -22,22 +22,22 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
 });
 
-var port; // listening port for web server
-
 app.configure('development', function(){
-  //Setup us the database
-  db = new Database('./roommates.db');
+  // setup us the database
+  db = new Database('./roommates-test.db');
   db.load(function() {
     console.log(' database internal: %s', util.inspect(db));
   });
   
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-  port = 3000;
 });
 
 app.configure('production', function(){
+  // setup us the database
+  db = new Database('./roommates.db');
+  db.load();
+
   app.use(express.errorHandler()); 
-  port = process.env.PORT || 3000;
 });
 
 // Routes
@@ -47,7 +47,7 @@ app.get('/newUser', routes.newUser);
 app.post('/addUser', routes.addUser);
 app.post('/addWeight', routes.addWeight);
 
-// listening
+var port = process.env.PORT || 3000;
 app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 console.log(' database: %s', db.path);
