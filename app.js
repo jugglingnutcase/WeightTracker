@@ -22,6 +22,8 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
 });
 
+var port; // listening port for web server
+
 app.configure('development', function(){
   //Setup us the database
   db = new Database('./roommates.db');
@@ -30,10 +32,12 @@ app.configure('development', function(){
   });
   
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+  port = 3000;
 });
 
 app.configure('production', function(){
   app.use(express.errorHandler()); 
+  port = process.env.PORT || 3000;
 });
 
 // Routes
@@ -44,6 +48,6 @@ app.post('/addUser', routes.addUser);
 app.post('/addWeight', routes.addWeight);
 
 // listening
-app.listen(3000);
+app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 console.log(' database: %s', db.path);
