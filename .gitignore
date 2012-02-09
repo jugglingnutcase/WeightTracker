@@ -1,4 +1,5 @@
 node_modules
-roommates.db
 backups
+roommates.db
+roommates-test.db
 
