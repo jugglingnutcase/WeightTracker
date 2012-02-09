@@ -31,13 +31,6 @@ app.configure('development', function(){
   });
   
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-
-  // db backup every hour i'm hoping
-  setInterval( function () {
-    var fileLocation = "./backups/weights-" + new Date().toString() + ".db.backup"
-    console.log("Backing up to: %s", fileLocation);
-    db.backup(fileLocation);
-  }, 60 * 1000);
 });
 
 app.configure('production', function(){
