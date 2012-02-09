@@ -56,7 +56,7 @@ script
 
     // Set up the series data
     var houseSeries = !{JSON.stringify(series)}
-    Rickshaw.Series.zeroFill(houseSeries)
+    Rickshaw.Series.stepFill(houseSeries)
 
     // Add a color for each participant
     var palette = new Rickshaw.Color.Palette();
@@ -69,7 +69,7 @@ script
       , width: 900
       , height: 500
       , renderer: 'line'
-      /*,interpolation: 'step-after'*/
+      , interpolation: 'step-after'
       , series: houseSeries
     });
 
