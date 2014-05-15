@@ -1,4 +1,7 @@
-# 96 Alexander's Weight Tracker
+# Weight Tracker
 
-Clone, npm install, and run. Hopefully that will do it, but i'm probably missing something.
+To use:
 
+* Clone
+* Run `script/build`
+* Run `npm start`
