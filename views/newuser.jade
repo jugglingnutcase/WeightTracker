@@ -1,10 +1,12 @@
-.row
-  .span12
-    h1= title 
+extends layout
 
-.row
-  .span12
-    form.well.form-inline(action='addUser', method='post')
-      input(type='text',name='userName', placeholder='Name')
-      button.btn(type='submit') Add me!
+block content
+  .row
+    .span12
+      h1= title
 
+  .row
+    .span12
+      form.well.form-inline(action='addUser', method='post')
+        input(type='text',name='userName', placeholder='Name')
+        button.btn(type='submit') Add me!

@@ -10,7 +10,7 @@ var express = require('express')
   , util = require('util')
   , fs = require('fs');
 
-var app = module.exports = express.createServer();
+var app = express();
 
 // Configuration
 
@@ -29,8 +29,8 @@ app.configure('development', function(){
   db.load(function() {
     console.log(' database internal: %s', util.inspect(db));
   });
-  
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
@@ -38,7 +38,7 @@ app.configure('production', function(){
   db = new Database('./roommates.db');
   db.load();
 
-  app.use(express.errorHandler()); 
+  app.use(express.errorHandler());
 
   // db backup every hour i'm hoping
   setInterval( function () {
@@ -56,6 +56,5 @@ app.post('/addWeight', routes.addWeight);
 
 var port = process.env.PORT || 3000;
 app.listen(port);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+//console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 console.log(' database: %s', db.path);
-

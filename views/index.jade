@@ -1,118 +1,122 @@
-- var series = []
-- var users = []
-- if (db.users) {
--   users = db.users.sort( function compare(a, b) {
--     if (a.name < b.name) {
--       return -1;
--     }
--     if (a.name > b.name) {
--       return 1;
--     }
--     return 0;
--   });
--   users.forEach( function(user) {
--     userSeries = {}
--     userSeries.name = user.name
--     userSeries.data = user.data.sort( function compare(a, b) {
--       if (a.x < b.x) {
--         return -1;
--       }
--       if (a.x > b.x) {
--         return 1;
--       }
--       return 0;
--     });
--     series.push(userSeries)
--   })
-- }
+extends layout
 
-.row
-  h1 96 Alexander's weight tracker
+block content
 
-style
-  #chart_container {
-          position: relative;
-  }
-  #chart {
-          position: relative;
-          left: 40px;
-  }
-  #y_axis {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          width: 40px;
-  }
+  - var series = []
+  - var users = []
+  - if (db.users) {
+  -   users = db.users.sort( function compare(a, b) {
+  -     if (a.name < b.name) {
+  -       return -1;
+  -     }
+  -     if (a.name > b.name) {
+  -       return 1;
+  -     }
+  -     return 0;
+  -   });
+  -   users.forEach( function(user) {
+  -     userSeries = {}
+  -     userSeries.name = user.name
+  -     userSeries.data = user.data.sort( function compare(a, b) {
+  -       if (a.x < b.x) {
+  -         return -1;
+  -       }
+  -       if (a.x > b.x) {
+  -         return 1;
+  -       }
+  -       return 0;
+  -     });
+  -     series.push(userSeries)
+  -   })
+  - }
 
-.row
-  #chart_container
-    #y_axis
-    #chart
+  .row
+    h1 96 Alexander's weight tracker
 
-script
-  // Bring up the datepicker in my form
-  $(function() {
-    $("#datepicker").datepicker();
+  style.
+    #chart_container {
+            position: relative;
+    }
+    #chart {
+            position: relative;
+            left: 40px;
+    }
+    #y_axis {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+    }
 
-    // Set up the series data
-    var houseSeries = !{JSON.stringify(series)}
-    Rickshaw.Series.stepFill(houseSeries)
+  .row
+    #chart_container
+      #y_axis
+      #chart
 
-    // Add a color for each participant
-    var palette = new Rickshaw.Color.Palette();
-    houseSeries.forEach(function( dataSeries ) {
-      dataSeries.color = palette.color()
-    });
+  script.
+    // Bring up the datepicker in my form
+    $(function() {
+      $("#datepicker").datepicker();
 
-    var graph = new Rickshaw.Graph( {
-        element: document.querySelector("#chart")
-      , width: 900
-      , height: 500
-      , renderer: 'line'
-      , interpolation: 'step-after'
-      , series: houseSeries
-    });
+      // Set up the series data
+      var houseSeries = !{JSON.stringify(series)}
+      Rickshaw.Series.stepFill(houseSeries)
 
-    var hoverDetail = new Rickshaw.Graph.HoverDetail( {
-      graph: graph
-    });
+      // Add a color for each participant
+      var palette = new Rickshaw.Color.Palette();
+      houseSeries.forEach(function( dataSeries ) {
+        dataSeries.color = palette.color()
+      });
 
-    // Tighten the interpolation
-    //this.graph.interpolation.tension(0.2);
+      var graph = new Rickshaw.Graph( {
+          element: document.querySelector("#chart")
+        , width: 900
+        , height: 500
+        , renderer: 'line'
+        , interpolation: 'step-after'
+        , series: houseSeries
+      });
 
-    var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-    var y_axis = new Rickshaw.Graph.Axis.Y( {
+      var hoverDetail = new Rickshaw.Graph.HoverDetail( {
         graph: graph
-      , orientation: 'left'
-      , tickFormat: Rickshaw.Fixtures.Number.formatKMBT
-      , element: document.getElementById('y_axis')
+      });
+
+      // Tighten the interpolation
+      //this.graph.interpolation.tension(0.2);
+
+      var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+      var y_axis = new Rickshaw.Graph.Axis.Y( {
+          graph: graph
+        , orientation: 'left'
+        , tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+        , element: document.getElementById('y_axis')
+      });
+
+      graph.render();
     });
 
-    graph.render();
-  });
+  .row
+    form.form-horizontal(action='addWeight', method='post')
+      fieldset
+        legend Add your weight to the data
+        .control-group
+          label.control-label Name:
+          .controls
+            select(name='user')
+              each user in users
+                option= user.name
 
-.row
-  form.form-horizontal(action='addWeight', method='post')
-    fieldset
-      legend Add your weight to the data
-      .control-group
-        label.control-label Name:
-        .controls
-          select(name='user')
-            each user in users
-              option= user.name
+        .control-group
+          label.control-label Date:
+          .controls
+            input#datepicker(type='text', name='date')
 
-      .control-group
-        label.control-label Date:
-        .controls
-          input#datepicker(type='text', name='date')
+        .control-group
+          label.control-label Weight:
+          .controls
+            input(type='text', name='weight')
 
-      .control-group
-        label.control-label Weight:
-        .controls
-          input(type='text', name='weight')
-
-      .form-actions.well
-        button.btn.primary(type='submit') Add weight
-        &nbsp;
-        a(href='/newUser') Not in the system?
+        .form-actions.well
+          button.btn.primary(type='submit') Add weight
+          &nbsp;
+          a(href='/newUser') Not in the system?

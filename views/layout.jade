@@ -1,5 +1,5 @@
-!!!
-html
+doctype html
+html(lang="en")
   head
     title= title
     link(rel='stylesheet/less', type='text/css', href='stylesheets/bootstrap.less')
@@ -20,4 +20,4 @@ html
           a.brand(href='/') Home
 
     .container
-      != body
+      block content
