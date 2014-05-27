@@ -16,21 +16,25 @@ exports.newuser = function(req, res){
  * POST user
  */
 
-exports.addWeight = function(req, res){
-  db.users.forEach(function(user) {
-    if ( user.name === req.body.user ) {
-      var dataPoint = {};
+exports.addWeight = function(req, res) {
+  db.get('users', function(err, users) {
+    if (err) return console.log('There are no users in the db');
 
-      dataPoint.x = Date.parse(req.body.date) / 1000;
-      dataPoint.y = parseFloat( req.body.weight );
+    users.forEach(function(user) {
+      if ( user.name === req.body.user ) {
+        var dataPoint = {};
 
-      user.data.push(dataPoint);
-      db.save();
+        dataPoint.x = Date.parse(req.body.date) / 1000;
+        dataPoint.y = parseFloat( req.body.weight );
 
-      console.log("User: %s added weight %s at %s", user.name, req.body.weight, req.body.date);
-      // Render the normal page for now
-      res.render('index', { title: 'Home' });
-    }
+        user.data.push(dataPoint);
+
+        console.log("User: %s added weight %s at %s", user.name, req.body.weight, req.body.date);
+
+        // Render the normal page for now
+        res.render('index', { title: 'Home' });
+      }
+    });
   });
 };
 
@@ -51,16 +55,23 @@ exports.addUser = function(req, res){
   var config = req.body;
   var userName = req.body.userName;
 
-  // Add the user into the database if they arent already in there
-  if( !(userName in db.users) ) {
-    db.users.push( { "name": userName, "data":[] } );
+  db.get('users', function (err, value) {
+    if (err) {
+      console.log('Users isn\'t in the db yet... initializing', err) // likely the key was not found
+      value = [];
+    }
 
-    // Save any database changes
-    db.save();
-  }
-  else {
-    console.log("We've already got one (" + userName + ") !");
-  }
+    // Add the user into the database if they aren't already in there
+    if( !(userName in value) ) {
+      value.push(userName);
+      // ta da!
+      db.put('users', value);
+    }
+    else {
+      console.log("We've already got one (" + userName + ") !");
+    }
 
-  res.render('index', { title: 'Home' });
+    res.render('index', { title: 'Home' });
+  });
+
 };

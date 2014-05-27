@@ -5,7 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , Database = require('./lib/db')
+  , level = require('level')
   , less = require('less')
   , util = require('util')
   , fs = require('fs');
@@ -14,7 +14,7 @@ var app = express();
 
 // Configuration
 
-app.configure(function(){
+app.configure(function() {
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
@@ -23,28 +23,27 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
 });
 
-app.configure('development', function(){
-  // setup us the database
-  db = new Database('./roommates-test.db');
-  db.load(function() {
-    console.log(' database internal: %s', util.inspect(db));
+app.configure('development', function() {
+  // setup us the db
+  db = new level('./roommates-test.db', {
+    'valueEncoding': 'json'
   });
+  /*db.load(function() {
+    console.log(' db internal: %s', util.inspect(db));
+  });*/
 
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.use(express.errorHandler({
+    dumpExceptions: true,
+    showStack: true
+  }))
 });
 
-app.configure('production', function(){
-  // setup us the database
-  db = new Database('./roommates.db');
-  db.load();
-
+app.configure('production', function() {
+  // setup us the db
+  db = new level('./roommates.db', {
+    'valueEncoding': 'json'
+  });
   app.use(express.errorHandler());
-
-  // db backup every hour i'm hoping
-  setInterval( function () {
-    var fileLocation = "./backups/weights-" + new Date().toString() + ".db.backup"
-    db.backup(fileLocation);
-  }, 60 * 60 * 1000);
 });
 
 // Routes
@@ -57,4 +56,4 @@ app.post('/addWeight', routes.addWeight);
 var port = process.env.PORT || 3000;
 app.listen(port);
 //console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-console.log(' database: %s', db.path);
+console.log(' db: %s', db.path);
