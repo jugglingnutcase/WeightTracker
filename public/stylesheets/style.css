@@ -6,3 +6,7 @@ body {
 a {
   color: #00B7FF;
 }
+
+.extra-space {
+  padding-left: 10px;
+}
