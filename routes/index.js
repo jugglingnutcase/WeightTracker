@@ -5,7 +5,19 @@ var util = require('util');
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Home' })
+  db.get('users', function(err, users) {
+    if (err) {
+      console.log('No users in the system... using an empty collection')
+      users = []
+    } else {
+      console.log('Found ' + users.length + ' users in the db', users);
+    }
+
+    res.render('index', {
+      title: 'Home',
+      users: users
+    })
+  });
 };
 
 exports.newuser = function(req, res){
@@ -25,7 +37,7 @@ exports.addWeight = function(req, res) {
         var dataPoint = {};
 
         dataPoint.x = Date.parse(req.body.date) / 1000;
-        dataPoint.y = parseFloat( req.body.weight );
+        dataPoint.y = parseFloat(req.body.weight);
 
         user.data.push(dataPoint);
 
@@ -55,23 +67,24 @@ exports.addUser = function(req, res){
   var config = req.body;
   var userName = req.body.userName;
 
-  db.get('users', function (err, value) {
+  db.get('users', function (err, users) {
     if (err) {
       console.log('Users isn\'t in the db yet... initializing', err) // likely the key was not found
-      value = [];
+      users = [];
     }
 
     // Add the user into the database if they aren't already in there
-    if( !(userName in value) ) {
-      value.push(userName);
-      // ta da!
-      db.put('users', value);
-    }
-    else {
+    if( !(userName in users) ) {
+      users.push(userName)
+      db.put('users', users);
+    } else {
       console.log("We've already got one (" + userName + ") !");
     }
 
-    res.render('index', { title: 'Home' });
+    res.render('index', {
+      title: 'Home',
+      users: users
+    });
   });
 
 };
