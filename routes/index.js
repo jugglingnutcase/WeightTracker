@@ -1,5 +1,3 @@
-var util = require('util');
-
 /*
  * GET home page.
  */
