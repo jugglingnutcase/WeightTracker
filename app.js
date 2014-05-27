@@ -25,12 +25,9 @@ app.configure(function() {
 
 app.configure('development', function() {
   // setup us the db
-  db = new level('./roommates-test.db', {
+  db = level('./roommates-test.db', {
     'valueEncoding': 'json'
   });
-  /*db.load(function() {
-    console.log(' db internal: %s', util.inspect(db));
-  });*/
 
   app.use(express.errorHandler({
     dumpExceptions: true,
@@ -40,9 +37,10 @@ app.configure('development', function() {
 
 app.configure('production', function() {
   // setup us the db
-  db = new level('./roommates.db', {
+  db = level('./roommates.db', {
     'valueEncoding': 'json'
   });
+
   app.use(express.errorHandler());
 });
 
@@ -56,4 +54,3 @@ app.post('/addWeight', routes.addWeight);
 var port = process.env.PORT || 3000;
 app.listen(port);
 //console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-console.log(' db: %s', db.path);
