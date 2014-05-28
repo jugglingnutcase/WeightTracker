@@ -23,28 +23,46 @@ exports.newuser = function(req, res){
 };
 
 /*
- * POST user
+ * POST addWeight
  */
 
 exports.addWeight = function(req, res) {
+  console.log("Trying to post a weight here!")
+
   db.get('users', function(err, users) {
-    if (err) return console.log('There are no users in the db');
+    if (err) console.log("there's a problem here!");
 
-    users.forEach(function(user) {
-      if ( user.name === req.body.user ) {
+    if (users.indexOf(req.body.user) !== -1) {
+      db.get(req.body.user, function(err, userWeights) {
+        if (err) {
+          console.log("No weight information has been given to this user... yet.");
+          userWeights = []
+        }
+
         var dataPoint = {};
+        dataPoint.date = Date.parse(req.body.date) / 1000;
+        dataPoint.weight = parseFloat(req.body.weight);
 
-        dataPoint.x = Date.parse(req.body.date) / 1000;
-        dataPoint.y = parseFloat(req.body.weight);
+        userWeights.push(dataPoint);
 
-        user.data.push(dataPoint);
+        db.put(req.body.user, userWeights);
 
-        console.log("User: %s added weight %s at %s", user.name, req.body.weight, req.body.date);
+        console.log("User: %s added weight %s at %s", req.body.user, req.body.weight, req.body.date);
 
         // Render the normal page for now
-        res.render('index', { title: 'Home' });
-      }
-    });
+        res.render('index', {
+          title: 'Home',
+          users: users
+        });
+      })
+    } else {
+      // Render the normal page for now with an error
+      res.render('index', {
+        title: 'Home',
+        users: users,
+        error: 'Inputting weight failed! There\'s no user by that name!'
+      });
+    }
   });
 };
 
