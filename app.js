@@ -25,7 +25,7 @@ app.configure(function() {
 
 app.configure('development', function() {
   // setup us the db
-  db = level('./roommates-test.db', {
+  db = level('./db/roommates-test.db', {
     'valueEncoding': 'json'
   });
 
@@ -37,7 +37,7 @@ app.configure('development', function() {
 
 app.configure('production', function() {
   // setup us the db
-  db = level('./roommates.db', {
+  db = level('./db/roommates.db', {
     'valueEncoding': 'json'
   });
 

@@ -1,6 +1,4 @@
 node_modules
 backups
-roommates.db
-roommates-test.db
+db
 npm-debug.log
-
