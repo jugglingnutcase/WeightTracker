@@ -6,7 +6,7 @@ exports.index = function(req, res){
   db.get('users', function(err, users) {
     if (err) {
       console.log('No users in the system... using an empty collection')
-      users = []
+      users = {}
     } else {
       console.log('Found ' + users.length + ' users in the db', users);
     }
@@ -32,21 +32,16 @@ exports.addWeight = function(req, res) {
   db.get('users', function(err, users) {
     if (err) console.log("there's a problem here!");
 
-    if (users.indexOf(req.body.user) !== -1) {
-      db.get(req.body.user, function(err, userWeights) {
-        if (err) {
-          console.log("No weight information has been given to this user... yet.");
-          userWeights = []
-        }
+    var userNames = Object.keys(users);
+    if (userNames.indexOf(req.body.user) !== -1) {
+        var weight = {
+          date: Date.parse(req.body.date) / 1000,
+          weight: parseFloat(req.body.weight)
+        };
 
-        var dataPoint = {};
-        dataPoint.date = Date.parse(req.body.date) / 1000;
-        dataPoint.weight = parseFloat(req.body.weight);
-
-        userWeights.push(dataPoint);
-
-        db.put(req.body.user, userWeights);
-
+        // Update the value and put things back in the db
+        users[req.body.user].weights.push(weight);
+        db.put('users', users);
         console.log("User: %s added weight %s at %s", req.body.user, req.body.weight, req.body.date);
 
         // Render the normal page for now
@@ -54,7 +49,6 @@ exports.addWeight = function(req, res) {
           title: 'Home',
           users: users
         });
-      })
     } else {
       // Render the normal page for now with an error
       res.render('index', {
@@ -86,15 +80,21 @@ exports.addUser = function(req, res){
   db.get('users', function (err, users) {
     if (err) {
       console.log('Users isn\'t in the db yet... initializing', err) // likely the key was not found
-      users = [];
+      users = {};
     }
 
+    var userNames = Object.keys(users);
+
     // Add the user into the database if they aren't already in there
-    if( !(userName in users) ) {
-      users.push(userName)
+    if( userNames.indexOf(userName) === -1 ) {
+      users[userName] = {
+        name: userName,
+        weights: []
+      };
+
       db.put('users', users);
     } else {
-      console.log("We've already got one (" + userName + ") !");
+      console.log("We've already got one " + userName + " in the db!");
     }
 
     res.render('index', {
