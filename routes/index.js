@@ -8,7 +8,7 @@ exports.index = function(req, res){
       console.log('No users in the system... using an empty collection')
       users = {}
     } else {
-      console.log('Found ' + users.length + ' users in the db', users);
+      console.log('Found ' + Object.keys(users).length + ' users in the db', users);
     }
 
     res.render('index', {
