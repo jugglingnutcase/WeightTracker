@@ -51,7 +51,7 @@ app.configure('production', function() {
 app.get('/', routes.index);
 app.get('/users/new', users.new);
 app.post('/users/add', users.add);
-app.post('/weights', weights.getWeights);
+app.get('/weights', weights.getWeights);
 app.post('/weights/add', weights.addWeight);
 
 var port = process.env.PORT || 3000;
