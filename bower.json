@@ -1,0 +1,27 @@
+{
+  "name": "WeightTracker",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jugglingnutcase/WeightTracker",
+  "authors": [
+    "James R Sconfitto <jugglingnutcase@gmail.com>"
+  ],
+  "description": "A simple app for tracking weights",
+  "main": "app.js",
+  "keywords": [
+    "weight"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.4.8",
+    "bootstrap": "~3.1.1"
+  }
+}
