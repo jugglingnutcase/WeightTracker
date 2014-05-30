@@ -5,6 +5,8 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , users = require('./routes/users')
+  , weights = require('./routes/weights')
   , level = require('level')
   , less = require('less')
   , util = require('util')
@@ -47,9 +49,10 @@ app.configure('production', function() {
 // Routes
 
 app.get('/', routes.index);
-app.get('/newUser', routes.newUser);
-app.post('/addUser', routes.addUser);
-app.post('/addWeight', routes.addWeight);
+app.get('/users/new', users.new);
+app.post('/users/add', users.add);
+app.post('/weights', weights.getWeights);
+app.post('/weights/add', weights.addWeight);
 
 var port = process.env.PORT || 3000;
 app.listen(port);

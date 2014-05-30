@@ -69,7 +69,7 @@ block content
     });
 
   .row
-    form.form-horizontal(action='addWeight', method='post')
+    form.form-horizontal(action='/weights/add', method='post')
       fieldset
         legend Add your weight to the data
         .control-group
@@ -91,4 +91,7 @@ block content
 
         .form-actions.well
           button.btn.primary(type='submit') Add weight
-          a.extra-space(href='/newUser') Not in the system?
+          a.extra-space(href='/users/new') Not in the system?
+
+block scripts
+  script(src="/javascripts/weight_chart.js")
