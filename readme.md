@@ -2,6 +2,5 @@
 
 To use:
 
-* Clone
-* Run `script/build`
-* Run `npm start`
+* `npm install`
+* `npm start`
