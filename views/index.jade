@@ -24,74 +24,26 @@ block content
       #y_axis
       #chart
 
-  script.
-    // Bring up the datepicker in my form
-    $(function() {
-      $("#datepicker").datepicker();
-
-      /*
-      // Set up the series data
-      var houseSeries = !{JSON.stringify(series)}
-      Rickshaw.Series.stepFill(houseSeries)
-
-      // Add a color for each participant
-      var palette = new Rickshaw.Color.Palette();
-      houseSeries.forEach(function( dataSeries ) {
-        dataSeries.color = palette.color()
-      });
-
-      var graph = new Rickshaw.Graph( {
-          element: document.querySelector("#chart")
-        , width: 900
-        , height: 500
-        , renderer: 'line'
-        , interpolation: 'step-after'
-        , series: houseSeries
-      });
-
-      var hoverDetail = new Rickshaw.Graph.HoverDetail( {
-        graph: graph
-      });
-
-      // Tighten the interpolation
-      //this.graph.interpolation.tension(0.2);
-
-      var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-      var y_axis = new Rickshaw.Graph.Axis.Y( {
-          graph: graph
-        , orientation: 'left'
-        , tickFormat: Rickshaw.Fixtures.Number.formatKMBT
-        , element: document.getElementById('y_axis')
-      });
-
-      graph.render();
-      */
-    });
-
   .row
-    form.form-horizontal(action='/weights/add', method='post')
-      fieldset
-        legend Add your weight to the data
-        .control-group
-          label.control-label Name:
-          .controls
-            select(name='user')
-              each user in users
-                option= user.name
+    h2 Add your weight!
 
-        .control-group
-          label.control-label Date:
-          .controls
-            input#datepicker(type='text', name='date')
+    form.form-horizontal(role="form", action='/weights/add', method='post')
+      .form-group
+        label(for='user') Name:
+        select.form-control#user
+          each user in users
+            option= user.name
 
-        .control-group
-          label.control-label Weight:
-          .controls
-            input(type='text', name='weight')
+      .form-group
+        label(for='date') Date:
+        input.form-control#date(type='text', placeholder='Date')
 
-        .form-actions.well
-          button.btn.primary(type='submit') Add weight
-          a.extra-space(href='/users/new') Not in the system?
+      .form-group
+        label(for='weight') Weight:
+        input.form-control#weight(type='text', placeholder='160')
+
+      button.btn.btn-default(type='submit') Add weight
+      a.extra-space(href='/users/new') Not in the system?
 
 block scripts
-  script(src="/javascripts/weight_chart.js")
+  script(src="/js/weight_chart.js")
