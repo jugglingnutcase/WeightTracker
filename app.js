@@ -47,10 +47,11 @@ app.configure('production', function() {
 });
 
 // Routes
-
 app.get('/', routes.index);
+
 app.get('/users/new', users.new);
 app.post('/users/add', users.add);
+
 app.get('/weights', weights.getWeights);
 app.post('/weights/add', weights.addWeight);
 
