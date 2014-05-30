@@ -35,19 +35,8 @@ exports.addWeight = function(req, res) {
         users[req.body.user].weights.push(weight);
         db.put('users', users);
         console.log("User: %s added weight %s at %s", req.body.user, req.body.weight, req.body.date);
-
-        // Render the normal page for now
-        res.render('index', {
-          title: 'Home',
-          users: users
-        });
-    } else {
-      // Render the normal page for now with an error
-      res.render('index', {
-        title: 'Home',
-        users: users,
-        error: 'Inputting weight failed! There\'s no user by that name!'
-      });
     }
+
+    res.redirect('/');
   });
 };
