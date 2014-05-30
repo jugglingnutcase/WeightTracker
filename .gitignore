@@ -1,4 +1,4 @@
 node_modules
-backups
+bower_components
 db
 npm-debug.log
