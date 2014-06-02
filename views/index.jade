@@ -20,9 +20,7 @@ block content
     }
 
   .row
-    #chart_container
-      #y_axis
-      #chart
+    #chart
 
   .row
     h2 Add your weight!
@@ -30,17 +28,17 @@ block content
     form.form-horizontal(role="form", action='/weights/add', method='post')
       .form-group
         label(for='user') Name:
-        select.form-control#user
+        select.form-control#user(name="user")
           each user in users
             option= user.name
 
       .form-group
         label(for='date') Date:
-        input.form-control#date(type='text', placeholder='Date')
+        input.form-control#date(type='text', name='date', placeholder='Date')
 
       .form-group
         label(for='weight') Weight:
-        input.form-control#weight(type='text', placeholder='160')
+        input.form-control#weight(type='text', name='weight', placeholder='160')
 
       button.btn.btn-default(type='submit') Add weight
       a.extra-space(href='/users/new') Not in the system?
