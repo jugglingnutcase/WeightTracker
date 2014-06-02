@@ -1,5 +1,26 @@
 extends layout
 
+block styles
+  link(rel='stylesheet', href='/css/styles.css')
+  link(rel='stylesheet', href='/css/colors.css')
+
+  style.
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+      display: none;
+    }
+
+    .line {
+      fill: none;
+      stroke-width: 1.5px;
+    }
+
 block content
   .row
     h1 96 Alexander's weight tracker
