@@ -4,6 +4,7 @@
  */
 
 var express = require('express')
+  , bodyParser = require('body-parser')
   , routes = require('./routes')
   , users = require('./routes/users')
   , weights = require('./routes/weights')
@@ -15,45 +16,23 @@ var express = require('express')
 var app = express();
 
 // Configuration
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser());
 
-app.configure(function() {
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
-
-app.configure('development', function() {
-  // setup us the db
-  db = level('./db/roommates-test.db', {
-    'valueEncoding': 'json'
-  });
-
-  app.use(express.errorHandler({
-    dumpExceptions: true,
-    showStack: true
-  }))
-});
-
-app.configure('production', function() {
-  // setup us the db
-  db = level('./db/roommates.db', {
-    'valueEncoding': 'json'
-  });
-
-  app.use(express.errorHandler());
+// setup us the db
+db = level('./db/roommates.db', {
+  'valueEncoding': 'json'
 });
 
 // Routes
 app.get('/', routes.index);
-
 app.get('/users/new', users.new);
 app.post('/users/add', users.add);
-
 app.get('/weights', weights.getWeights);
 app.post('/weights/add', weights.addWeight);
 
+// Listen
 var port = process.env.PORT || 3000;
 app.listen(port);
