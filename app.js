@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -22,7 +21,11 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser());
 
 // setup us the db
-db = level('./db/roommates.db', {
+var dbPath = './db/roommates.db';
+if (process.env.NODE_ENV == 'development') {
+  dbPath = './db/roomates-dev.db';
+}
+db = level(dbPath, {
   'valueEncoding': 'json'
 });
 
